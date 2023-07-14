@@ -1,0 +1,36 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Projement</title>
+
+    <script>
+        {# This can be used to pass relevant Django settings to the frontend app. #}
+        var DJ_CONST = {
+            {% if request.user.is_authenticated %}
+                user: {
+                    id: {{ request.user.id }},
+                    email: '{{ request.user.email|escapejs }}',
+                    name: '{{ request.user.name|escapejs }}',
+                },
+            {% else %}
+                user: null,
+            {% endif %}
+            csrfToken: '{{ csrf_token }}',
+            SITE_URL: '{{ settings.SITE_URL }}',
+            STATIC_URL: '{{ settings.STATIC_URL }}',
+        };
+    </script>
+
+    {% render_bundle 'styles' %}
+    {% render_bundle 'app' %}
+
+</head>
+<body>
+    {% block content %}{% endblock content %}
+</body>
+</html>

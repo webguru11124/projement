@@ -1,0 +1,34 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:prettier/recommended",
+        "plugin:jest/recommended"
+    ],
+    "plugins": [
+        "jest",
+        "react-hooks"
+    ],
+    "env": {
+        "browser": true,
+        "jest/globals": true
+    },
+    "globals": {
+        "DJ_CONST": false
+    },
+    "settings": {
+        "import/resolver": {
+            "webpack": {
+                "config": "app/webpack/config.dev.js"
+            }
+        },
+        "react": {
+            "version": "detect"
+        }
+    },
+    "rules": {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn"
+    }
+}

@@ -1,0 +1,12 @@
+[tool.black]
+exclude = '''
+(
+    /(
+        node_modules
+        | app
+        | coverage
+        | coverage_html
+    )/
+    | migrations
+)
+'''

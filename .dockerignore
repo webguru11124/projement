@@ -1,0 +1,17 @@
+.idea
+
+venv/
+
+.git
+
+*.py[cod]
+**/__pycache__
+**/.cache
+**/.pytest_cache
+**/.coverage
+**/coverage
+**/cover
+
+.data*/
+
+projement/node_modules/

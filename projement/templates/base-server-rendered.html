@@ -1,0 +1,13 @@
+{% extends 'app.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+{# This causes the main app to run, but also attach some extra content into the body of the app, ensure routing doesn't redirect or load some other page. #}
+{{ block.super }}
+
+<div class="container ssr-container">
+    {% block container-content %}{% endblock container-content %}
+</div>
+
+{% endblock content %}

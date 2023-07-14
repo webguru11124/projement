@@ -1,0 +1,107 @@
+{
+  "name": "projement",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd app && NODE_ENV=development webpack --config webpack/config.dev.js --watch --profile --color",
+    "build": "cd app && NODE_ENV=development webpack --config webpack/config.dev.js --profile --color",
+    "test": "NODE_ENV=test jest",
+    "lint": "eslint app/src",
+    "lint-fix": "eslint --fix app/src"
+  },
+  "jest": {
+    "globals": {
+      "NODE_ENV": "test",
+      "DJ_CONST": {
+        "user": null,
+        "csrfToken": "token"
+      }
+    },
+    "presets": [
+      "@babel/react",
+      "@babel/env"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json"
+    ],
+    "modulePaths": [
+      "<rootDir>/app/src",
+      "<rootDir>/node_modules"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/app/src/core/testSetup.js"
+    ],
+    "transform": {
+      "^.+\\.js?$": "babel-jest",
+      "^.+\\.html?$": "html-loader-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/"
+    ],
+    "verbose": true,
+    "collectCoverageFrom": [
+      "app/src/**/*.js"
+    ]
+  },
+  "dependencies": {
+    "@babel/core": "7.13",
+    "@babel/plugin-proposal-decorators": "7.13",
+    "@babel/plugin-proposal-export-default-from": "7.12",
+    "@babel/plugin-proposal-throw-expressions": "7.12",
+    "@babel/plugin-transform-runtime": "7.13",
+    "@babel/polyfill": "7.12",
+    "@babel/preset-env": "7.13",
+    "@babel/preset-react": "7.12",
+    "@babel/runtime": "7.13",
+    "@fortawesome/fontawesome-svg-core": "1.2.25",
+    "@fortawesome/free-solid-svg-icons": "5.11.2",
+    "@fortawesome/react-fontawesome": "0.1.7",
+    "bootswatch": "4.3.1",
+    "formik": "2.0.6",
+    "prop-types": "15.7.2",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-redux": "7.1.3",
+    "react-router-dom": "5.1.2",
+    "reactstrap": "8.1.1",
+    "redux": "4.0.4",
+    "redux-devtools-extension": "2.13.8",
+    "redux-thunk": "2.3.0",
+    "yup": "0.27.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "9.3.2",
+    "autoprefixer": "9.8",
+    "babel-eslint": "10.0.3",
+    "babel-jest": "24.9.0",
+    "babel-loader": "8.2",
+    "css-loader": "6.4.0",
+    "eslint": "6.7.1",
+    "eslint-config-prettier": "6.7.0",
+    "eslint-import-resolver-webpack": "0.11.1",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-jest": "23.0.5",
+    "eslint-plugin-prettier": "3.1.1",
+    "eslint-plugin-react": "7.16.0",
+    "eslint-plugin-react-hooks": "2.3.0",
+    "fetch-mock": "8.0.0",
+    "html-loader": "^1.3.2",
+    "html-loader-jest": "^0.2.1",
+    "jest": "24.9.0",
+    "mini-css-extract-plugin": "2.5",
+    "node-fetch": "2.6.0",
+    "postcss": "^8.4.24",
+    "postcss-loader": "6.1",
+    "prettier": "1.19.1",
+    "raw-loader": "3.1.0",
+    "resolve-url-loader": "4.0",
+    "sass": "1.54.9",
+    "sass-loader": "12.4.0",
+    "url-loader": "4.1",
+    "webpack": "5.68",
+    "webpack-bundle-tracker": "1.4",
+    "webpack-cli": "4.9"
+  }
+}

@@ -1,0 +1,11 @@
+venv/
+.idea
+*.py[cod]
+**/__pycache__
+coverage/
+
+.data/
+node_modules/
+projement/app/webpack-stats.json
+projement/app/build/
+projement/assets/

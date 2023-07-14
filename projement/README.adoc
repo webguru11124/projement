@@ -1,0 +1,68 @@
+:toc:
+= Projement back-end
+
+The back-end consists of a Docker container with _Python 3.8_ and _Django 2.2_.
+
+All Python package requirements are listed in
+link:../requirements.txt[`requirements.txt`]. The initial requirements include:
+
+* https://docs.djangoproject.com/en/2.2/[Django] as the base framework
+* http://django-crispy-forms.readthedocs.io/en/latest/[django-crispy-forms]
+ for easier form layouts for server-rendered forms
+* http://pythonhosted.org/Markdown/siteindex.html[markdown] for rendering
+ markdown in HTML
+* https://www.django-rest-framework.org/[djangorestframework] for creating the
+ API for the front-end to consume
+* https://docs.pytest.org[pytest] for writing tests
+* https://github.com/psf/black[black] for linting and automatically formatting
+ the code
+* https://django-debug-toolbar.readthedocs.io/en/latest/index.html[Django Debug
+ Toolbar] to
+ help with debugging
+
+If you'd like to install additional dependencies, add them to the
+link:../requirements.txt[`requirements.txt`] file and rebuild the Docker containers
+with `make build`.
+
+The application uses the _SQLite_ database back-end by default.
+
+== Apps
+
+There are two Django `apps` in this application:
+
+* link:auth[`auth`] app - Authentication concerns like logging the user in through
+ the login form.
+* link:projects[`projects`] app - The core business logic of the application –
+ keeping track of time spent on projects. Exposes a REST API that can be
+ consumed by the front-end. Everything related to the API is in the
+ link:projects/rest[`projects/rest/`] folder. This includes very standard Django
+ REST Framework viewsets in link:projects/rest/views.py[`rest/views.py`],
+ serializers in link:projects/rest/serializers.py[`rest/serializers.py`], and
+ registering the routes from those viewsets in
+ link:projects/rest/urls.py[`rest/urls.py`].
+
+There are also some tests in the link:auth/tests.py[`auth/tests.py`] and
+link:projects/tests[`projects/tests`] folders and files.
+
+== Linting
+
+https://github.com/psf/black[Black] is used to automatically format and lint
+files. The `make lint-django` command checks that the project is correctly
+formatted.
+
+You can set up your editor to automatically format Python files using Black
+following the instructions https://github.com/psf/black#editor-integration[on Black's GitHub
+page].
+
+You can also use the `make lint-django-fix` command to automatically format all
+Python files in the project.
+
+== Front-end
+
+The front-end is a React app that's rendered through Django. This means that
+Django renders a template (link:templates/app.html[`app.html`]) and inside that
+template, `ReactDOM.render` is manually called (`projement.init()` calls the
+`init` function in link:app/src/main.js[`app/src/main.js`]).
+
+Read more about how the front-end works in the link:app/README.adoc[front-end
+`README.adoc`].

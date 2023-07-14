@@ -1,0 +1,68 @@
+@import "https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700";
+@import "https://cdn.jsdelivr.net/gh/asciidoctor/asciidoctor@2.0/data/stylesheets/asciidoctor-default.css";
+
+blockquote {
+    border-left: 4px solid #cccccc;
+    margin-left: 2px;
+    padding-left: 1em;
+}
+
+p {
+    font-size: 16px;
+}
+
+pre {
+    padding: 8px;
+    background-color: #f2f2f2;
+}
+
+h1 {
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+h2 {
+    border-bottom: 2px solid #cccccc;
+    margin-top: 1.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+}
+
+h4 {
+    padding: 8px;
+    background-color: #18BC9C;
+    color: white;
+    font-weight: bold;
+    font-size: 1.3rem;
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+}
+
+h5 {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    padding: 12px;
+    margin: 1rem 0 1.5rem;
+    font-size: 1.1rem;
+    line-height: 1.5rem;
+}
+
+p + ul {
+    margin-top: -0.4rem;
+}
+
+ul {
+    padding-left: 18px;
+}
+
+li {
+    font-size: 1rem;
+}
+

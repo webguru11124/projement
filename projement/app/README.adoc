@@ -1,0 +1,188 @@
+:toc:
+= Projement front-end
+
+The front-end of this application is a React app that's rendered inside a Django
+template (link:../templates/app.html[`app.html`]) and that fetches required data
+from the REST API that the back-end exposes.
+
+== Folder structure
+
+The source code for the front-end is in the link:src[`src/`] folder. The webpack
+configuration is in the link:webpack[`webpack/`] folder and the built JavaScript
+files that Django will serve are built to the link:build[`build/`] folder (You most
+likely don't need to touch either of these directories).
+
+The `src/` folder is split into folders by "domain", so the folder structure
+looks similar to the Django project. Instead of having a few folders at the top
+level like `src/components/` and `src/pages/`, the first folders should be
+similar to the Django `apps`. Each front-end `app` can include a few different
+kinds of files and folders. Let's take the `projects` example:
+
+[source,text]
+----
+projects
+├── ducks                             // Redux ducks related to this project (check out the Redux section in this readme)
+├── forms                             // Forms built using Formik
+│   ├── EditProjectForm               // The form for editing the time spent on a project
+│   │   ├── EditProjectForm.js        // The component is declared here
+│   │   ├── EditProjectForm.test.js   // And the tests for that component
+│   │   └── index.js                  // This exports the component so that it can be imported like so:
+│   │                                 // `import EditProjectForm from 'projects/forms/EditProjectForm'`
+│   └── index.js                      // This exports all forms so that it's even more convenient to
+│                                     // import: `import { EditProjectForm } from 'projects/forms'`
+├── pages                             // Pages related to projects, just normal react components
+│   ├── DashboardPage                 // Follows the same structure as a component
+│   ├── EditProjectPage
+│   └── index.js
+├── propTypes.js                      // React Prop Types related to projects
+└── testUtils.js                      // Some test utilities (for example, generating a mock project object)
+
+----
+
+The other `app` in the front-end is link:src/core[`core`]. This includes things
+that are not really related to any specific `app` but are related to the
+application as a whole. So, things like the link:src/core/Navbar[`Navbar`
+component], utility components like
+link:src/core/PrivateRoute[`PrivateRoute`], and utilities like
+link:src/core/testUtils.js[`testUtils`] go here. Also, the `core` app includes
+generic "set up" and configuration files. For example, setting up the Redux
+store happens in link:src/core/store.js[`store.js`].
+
+== Testing
+
+https://testing-library.com/docs/react-testing-library/intro[React Testing
+Library] is used
+for testing React components in this project. It features a limited API to test
+React components exactly like how they are used by the users of the application.
+This means that there's no testing of internal states, props or method
+invocations, the main things that should be tested are the things that the user
+can see and interact with.
+
+Test files are located next to the thing that they are testing. For example, the
+tests for `Navbar.js` are located in the `Navbar.test.js` file next to
+`Navbar.js`.
+
+You can run front-end tests with the `make test-node` command.
+
+If you want to test things related to routing, Redux or HTTP requests, check out
+the sections for those (<<routing,Routing>>, <<redux-store,Redux store>> and
+<<communication-with-the-back-end,Communication with the back-end>>).
+
+== Routing
+
+https://reacttraining.com/react-router/[React Router] is used for routing in
+the front-end. The routes are declared in the link:src/core/App.js[`App`
+component]. There is also a utility component
+link:src/core/PrivateRoute[`PrivateRoute`] that redirects the user to the login
+page if they are not logged in.
+
+An example on how to test components that depend on the router can be seen in
+the
+link:src/projects/forms/EditProjectPage/EditProjectPage.test.js[`EditProjectPage.test.js`].
+In a nutshell, the component needs to be rendered inside a React Router `Router`
+component and it might be necessary to wrap it in a `Route` component as well.
+The utility for this is the link:src/core/testUtils.js[`renderWithContext` function in the core test
+utilities].
+
+_Note_ that this is generally not how we do routing in our projects but this
+solution is quite simple and works well enough for a test assignment.
+
+== Redux store
+
+Most of our projects use Redux for state management. There's not a whole lot
+there, but it's similar to how it's set up in most of our projects. We use Ducks
+as a way to organize our Redux store. In a nutshell, this means that all related
+reducers/actions/selectors/etc. are located next to each other in one file. You
+can read more about the Ducks idea here:
+https://github.com/erikras/ducks-modular-redux/[`ducks-modular-redux`].
+
+Generally, Ducks can include the following logic:
+
+* Actions
+* Reducers
+* Action creators
+* Asynchronous action creators for making HTTP requests, for example (using
+ https://github.com/reduxjs/redux-thunk[Redux Thunk])
+* Selectors
+
+In this application, the only Duck we have is the link:src/projects/ducks/projects.js[`projects`
+duck]. It includes the following logic:
+
+* Fetching the projects - `fetchProjects` function
+* Update a project - `updateProject` function
+* Store the projects in the Redux store - action creators and reducers
+* Keep track of the loading state for projects
+* Selectors for selecting data from the Redux store
+
+The whole Redux store for the application is quite small:
+
+[source,js]
+----
+{
+    projects: {
+        projects: [  // List of projects as they are received from the API
+            {id: 1, name: 'GateMe', company: {...}, ...}
+        ],
+        isLoading: false,  // If anything related to projects is loading
+    },
+}
+----
+
+If you want to test a component that wants to use the Redux store, you can use
+the `renderWithContext` utility function from
+link:src/core/testUtils.js[`testUtils`] to wrap the component in a Redux provider.
+See an example in
+link:src/projects/pages/DashboardPage/DashboardPage.test.js[`DashboardPage.test.js`].
+
+== Communication with the back-end
+
+The communication with the back-end is done via HTTP requests to various API
+endpoints to `/api/*` URLs.
+
+As briefly mentioned in the Redux store section, this project uses Redux Thunk
+to make HTTP requests. This means that a component can conveniently dispatch an
+action to start any kind of HTTP request. For example, the link:src/projects/pages/DashboardPage/DashboardPage.js[`DashboardPage`
+component] calls
+`fetchProjects()` if the component wants to trigger the fetching of projects.
+
+If you want to test a component that makes some HTTP requests, you can use
+http://www.wheresrhys.co.uk/fetch-mock/[`fetch-mock`] to mock the HTTP
+request. See an example in
+link:src/projects/pages/DashboardPage/DashboardPage.test.js[`DashboardPage.test.js`].
+
+== Forms
+
+We generally use https://github.com/jaredpalmer/formik[Formik] to build forms.
+An example of this can be seen in the
+link:src/projects/forms/EditProjectForm/EditProjectForm.js[`EditProjectForm`].
+
+== Linting
+
+ESLint and Prettier are set up and should work out of the box. You can run `make
+eslint` to check your code for linting errors.
+
+=== Formatting
+
+`make eslint-fix` will have eslint try to fix any errors which it is able to.
+
+== Notes
+
+Depending on your development environment set up, you might need to install the
+`npm` packages locally (it can help your editor with autocompletion and
+linting):
+
+[source,bash]
+----
+# From the project root
+cd projement
+npm install
+----
+
+You should now have the packages installed locally to `projement/node_modules`
+and you should be able to run `npm` scripts locally (not through Docker):
+
+[source,bash]
+----
+npm run test
+npm run lint
+----

@@ -1,0 +1,138 @@
+[
+{
+  "model": "projects.tag",
+  "pk": 1,
+  "fields": {
+    "name": "Development",
+    "color": "secondary"
+  }
+},
+{
+  "model": "projects.tag",
+  "pk": 2,
+  "fields": {
+    "name": "Forestry",
+    "color": "success"
+  }
+},
+{
+  "model": "projects.tag",
+  "pk": 3,
+  "fields": {
+    "name": "Industry 4.0",
+    "color": "primary"
+  }
+},
+{
+  "model": "projects.company",
+  "pk": 1,
+  "fields": {
+    "name": "Thorgate",
+    "tags": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "projects.company",
+  "pk": 2,
+  "fields": {
+    "name": "Vestman",
+    "tags": [
+      2
+    ]
+  }
+},
+{
+  "model": "projects.company",
+  "pk": 3,
+  "fields": {
+    "name": "Krah Pipes",
+    "tags": [
+      3
+    ]
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 1,
+  "fields": {
+    "company": 1,
+    "title": "GateMe",
+    "start_date": "2013-01-01",
+    "end_date": "2015-12-31",
+    "estimated_design": 240,
+    "actual_design": 200,
+    "estimated_development": 350,
+    "actual_development": 450,
+    "estimated_testing": 100,
+    "actual_testing": 89
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 2,
+  "fields": {
+    "company": 1,
+    "title": "Comics",
+    "start_date": "2016-01-01",
+    "end_date": "2016-02-01",
+    "estimated_design": 50,
+    "actual_design": 55,
+    "estimated_development": 120,
+    "actual_development": 5,
+    "estimated_testing": 0,
+    "actual_testing": 0
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 3,
+  "fields": {
+    "company": 1,
+    "title": "Projement",
+    "start_date": "2016-10-01",
+    "end_date": null,
+    "estimated_design": 10,
+    "actual_design": 0,
+    "estimated_development": 25,
+    "actual_development": 5,
+    "estimated_testing": 5,
+    "actual_testing": 0
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 4,
+  "fields": {
+    "company": 2,
+    "title": "Vaheladu",
+    "start_date": "2013-10-10",
+    "end_date": "2019-12-03",
+    "estimated_design": 130,
+    "actual_design": 5,
+    "estimated_development": 8,
+    "actual_development": 200,
+    "estimated_testing": 3,
+    "actual_testing": 2
+  }
+},
+{
+  "model": "projects.project",
+  "pk": 5,
+  "fields": {
+      "company": 3,
+      "title": "Krah",
+      "start_date": "2016-08-10",
+      "end_date": null,
+      "estimated_design": 20,
+      "actual_design": 15,
+      "estimated_development": 1000,
+      "actual_development": 999,
+      "estimated_testing": 5,
+      "actual_testing": 6
+  }
+}
+]
