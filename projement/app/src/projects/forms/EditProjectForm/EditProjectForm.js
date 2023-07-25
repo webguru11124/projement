@@ -20,6 +20,8 @@ const FormField = ({ label, name, touched, errors }) => (
             tag={Field}
             invalid={touched[name] && !!errors[name]}
             min={0}
+            max={9999.99}
+            step="0.01"
             required
         />
         {touched[name] && errors[name] && (
@@ -27,7 +29,6 @@ const FormField = ({ label, name, touched, errors }) => (
         )}
     </FormGroup>
 );
-
 FormField.propTypes = {
     label: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -48,14 +49,17 @@ const EditProjectForm = ({ project, onSubmit }) => (
         validationSchema={Yup.object().shape({
             actual_design: Yup.number()
                 .min(0)
+                .max(9999.99)
                 .required()
                 .label('Actual design hours'),
             actual_development: Yup.number()
                 .min(0)
+                .max(9999.99)
                 .required()
                 .label('Actual development hours'),
             actual_testing: Yup.number()
                 .min(0)
+                .max(9999.99)
                 .required()
                 .label('Actual testing hours'),
         })}

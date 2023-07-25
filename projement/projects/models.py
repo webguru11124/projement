@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MinValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -48,26 +48,32 @@ class Project(models.Model):
     end_date = models.DateField("Project end date", blank=True, null=True)
 
     estimated_design = models.PositiveSmallIntegerField("Estimated design hours")
-    actual_design = models.PositiveSmallIntegerField(
+    actual_design = models.DecimalField(
         "Actual design hours",
+        max_digits=6,
+        decimal_places=2,
         default=0,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0), MaxValueValidator(9999.99)],
     )
 
     estimated_development = models.PositiveSmallIntegerField(
         "Estimated development hours"
     )
-    actual_development = models.PositiveSmallIntegerField(
+    actual_development = models.DecimalField(
         "Actual development hours",
+        max_digits=6,
+        decimal_places=2,
         default=0,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0), MaxValueValidator(9999.99)],
     )
 
     estimated_testing = models.PositiveSmallIntegerField("Estimated testing hours")
-    actual_testing = models.PositiveSmallIntegerField(
+    actual_testing = models.DecimalField(
         "Actual testing hours",
+        max_digits=6,
+        decimal_places=2,
         default=0,
-        validators=[MinValueValidator(0)],
+        validators=[MinValueValidator(0), MaxValueValidator(9999.99)],
     )
 
     def __str__(self):
