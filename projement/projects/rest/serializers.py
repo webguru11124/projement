@@ -16,6 +16,11 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = ("id", "name", "tags")
 
+class CustomDecimalField(serializers.DecimalField):
+    def to_representation(self, value):
+        # Convert the decimal value to a Python float and then to a number (if not None)
+        return float(value) if value is not None else None
+
 
 class ProjectSerializer(serializers.ModelSerializer):
     company = CompanySerializer(many=False, read_only=True)
@@ -49,6 +54,10 @@ class ProjectSerializer(serializers.ModelSerializer):
             "estimated_development",
             "estimated_testing",
         )
+
+    actual_design = CustomDecimalField(max_digits=10, decimal_places=2, required=False)
+    actual_development = CustomDecimalField(max_digits=10, decimal_places=2, required=False)
+    actual_testing = CustomDecimalField(max_digits=10, decimal_places=2, required=False)
 
     def get_tags(self, obj: Project):
         return TagSerializer(obj.company.tags, many=True).data

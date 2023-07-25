@@ -84,7 +84,7 @@ export const fetchProjects = () => async dispatch => {
 export const updateProject = (projectId, projectValues) => async dispatch => {
     let response;
     try {
-        response = await fetch(`/api/projects/${projectId}/`, {
+        response = await fetch(`/api/projects/${projectId}/add_actual/`, {
             method: 'PUT',
             body: JSON.stringify(projectValues),
             headers: {
