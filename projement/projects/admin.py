@@ -1,5 +1,5 @@
 from django.contrib import admin
-
+from .rest.utils import custom_sort
 from projects.models import Company, Project, Tag
 
 
@@ -7,7 +7,10 @@ from projects.models import Company, Project, Tag
 class ProjectAdmin(admin.ModelAdmin):
     list_display = ("title", "company", "start_date", "end_date")
     list_filter = ("company__name",)
-    ordering = ("-start_date",)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        return custom_sort(queryset)
 
     fieldsets = (
         (None, {"fields": ["company", "title", "start_date", "end_date"]}),
