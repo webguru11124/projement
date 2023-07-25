@@ -39,6 +39,41 @@ class ProjectsTestCase(TestCase):
         )
 
 
+from django.urls import get_resolver
+
+
+def get_all_urls():
+    url_patterns = get_resolver().url_patterns
+    return [pattern for pattern in url_patterns]
+
+
+class ProjectAdminTestCase(TestCase):
+    fixtures = ["projects/fixtures/initial.json"]
+
+    def setUp(self):
+        super().setUp()
+        self.user = User.objects.create_superuser(username="test", password="123")
+        login = self.client.login(username="test", password="123")
+
+    def test_admin_end_date_sorting(self):
+        all_urls = get_all_urls()
+        for url in all_urls:
+            print(url)
+
+        url = reverse("admin:projects_project_changelist")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        projects_on_page = response.context["cl"].result_list
+
+        expected_order = ["Krah", "Projement", "Vaheladu", "Comics", "GateMe"]
+
+        actual_order = [project.title for project in projects_on_page]
+
+        self.assertEqual(actual_order, expected_order)
+
+
 class ProjectsViewSetTestCase(APITestCase):
     fixtures = ["projects/fixtures/initial.json"]
 
@@ -54,6 +89,18 @@ class ProjectsViewSetTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # There are 3 projects in the response (loaded from the fixtures)
         self.assertEqual(len(response.data), 5)
+
+    def test_end_date_sorting(self):
+        url = reverse("project-list")
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.data
+
+        expected_order = ["Krah", "Projement", "Vaheladu", "Comics", "GateMe"]
+        actual_order = [project["title"] for project in data]
+
+        self.assertEqual(actual_order, expected_order)
 
     def test_projects_list_requires_authentication(self):
         self.client.logout()
