@@ -37,9 +37,9 @@ describe('EditProjectForm', () => {
     it('allows the form to be submitted', async () => {
         const { fillField, submit, mockOnSubmit } = renderForm();
 
-        fillField(/actual design hours/i, 4);
-        fillField(/actual development hours/i, 5);
-        fillField(/actual testing hours/i, 6);
+        fillField(/actual design hours/i, 4.5);
+        fillField(/actual development hours/i, 5.75);
+        fillField(/actual testing hours/i, 6.25);
         submit();
 
         await wait(() => {
@@ -47,9 +47,9 @@ describe('EditProjectForm', () => {
         });
 
         expect(mockOnSubmit.mock.calls[0][0]).toEqual({
-            actual_design: 4,
-            actual_development: 5,
-            actual_testing: 6,
+            actual_design: 4.5,
+            actual_development: 5.75,
+            actual_testing: 6.25,
         });
     });
 

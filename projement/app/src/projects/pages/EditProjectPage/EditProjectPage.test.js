@@ -30,14 +30,14 @@ describe('EditProjectPage', () => {
     });
 
     it('sends an API request to the server when the form is submitted', async () => {
-        const NEW_ACTUAL_DESIGN = 10;
+        const NEW_ACTUAL_DESIGN = 1.2;
 
         // Mock the API request to fetch the projects
         fetchMock.getOnce('/api/projects', [getMockProject()]);
         // And the API request to update the given project with the new
         // actual_design value
         fetchMock.putOnce(
-            '/api/projects/1/',
+            '/api/projects/1/add_actual/',
             getMockProject({ actual_design: NEW_ACTUAL_DESIGN }),
         );
 
@@ -63,21 +63,22 @@ describe('EditProjectPage', () => {
         // Expect the correct parameters to have been sent to the server
         expect(fetchMock.calls()[1][1].body).toEqual(
             JSON.stringify({
-                actual_design: 10,
-                actual_development: 2,
-                actual_testing: 3,
+                actual_design: 1.2,
+                actual_development: 0,
+                actual_testing: 0
             }),
         );
 
         // Redirect to projects' list view after submitting
         expect(history.location.pathname).toBe('/dashboard');
+        // Cleanup after all tests
     });
 
     it('shows validation errors from the server', async () => {
         fetchMock.getOnce('/api/projects', [getMockProject()]);
         // Mock the PUT request to return some validation errors in the DRF
         // format
-        fetchMock.putOnce('/api/projects/1/', {
+        fetchMock.putOnce('/api/projects/1/add_actual/', {
             status: 400,
             body: { actual_design: ['It is bad!'] },
         });
@@ -90,5 +91,7 @@ describe('EditProjectPage', () => {
 
         // Shows the validation error to the user
         expect(getByText(/it is bad!/i)).toBeInTheDocument();
+        // Cleanup after all tests
     });
+
 });

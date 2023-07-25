@@ -4,11 +4,11 @@ export const getMockProject = ({ ...overrides } = {}) => ({
     start_date: new Date().toString(),
     end_date: null,
     estimated_design: 10,
-    actual_design: 1,
+    actual_design: 1.02,
     estimated_development: 20,
-    actual_development: 2,
+    actual_development: 2.81,
     estimated_testing: 30,
-    actual_testing: 3,
+    actual_testing: 3.80,
     company: {
         id: 1,
         name: 'Test Company',
@@ -24,6 +24,6 @@ export const getMockProject = ({ ...overrides } = {}) => ({
     is_over_budget: false,
     has_ended: false,
     total_estimated_hours: 10,
-    total_actual_hours: 5,
+    total_actual_hours: 6.63,
     ...overrides,
 });
