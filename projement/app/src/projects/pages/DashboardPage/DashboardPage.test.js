@@ -35,7 +35,7 @@ describe('DashboardPage', () => {
 
     it('strikes through ended projects', async () => {
         fetchMock.getOnce('/api/projects', [
-            getMockProject({ has_ended: true }),
+            getMockProject({ has_ended: false, end_date: new Date().toString() }),
         ]);
 
         const { getByText } = renderWithContext(<DashboardPage />);
