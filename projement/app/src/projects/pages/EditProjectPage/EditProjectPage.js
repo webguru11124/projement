@@ -7,18 +7,18 @@ import { connect } from 'react-redux';
 import { EditProjectForm } from 'projects/forms';
 import {
     getProjects,
-    fetchProjects,
+    fetchProject,
     updateProject,
 } from 'projects/ducks/projects';
 import { projectType } from 'projects/propTypes';
 import { Spinner } from 'core';
 
-const EditProjectPage = ({ projects, fetchProjects, updateProject }) => {
+const EditProjectPage = ({ projects, fetchProject, updateProject }) => {
     const { id } = useParams();
     const history = useHistory();
     useEffect(() => {
-        fetchProjects();
-    }, [fetchProjects]);
+        fetchProject(id);
+    }, [fetchProject]);
 
     if (!projects.length) {
         return <Spinner />;
@@ -57,7 +57,7 @@ const EditProjectPage = ({ projects, fetchProjects, updateProject }) => {
 
 EditProjectPage.propTypes = {
     projects: PropTypes.arrayOf(projectType).isRequired,
-    fetchProjects: PropTypes.func.isRequired,
+    fetchProject: PropTypes.func.isRequired,
     updateProject: PropTypes.func.isRequired,
 };
 
@@ -66,8 +66,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchProjects: () => dispatch(fetchProjects()),
+    fetchProject: (id) => dispatch(fetchProject(id)),
     updateProject: (id, project) => dispatch(updateProject(id, project)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProjectPage);

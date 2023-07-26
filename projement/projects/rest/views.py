@@ -3,17 +3,24 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.exceptions import APIException
 from rest_framework import status
-from decimal import Decimal
 
+from rest_framework.pagination import PageNumberPagination
+from decimal import Decimal
 from projects.models import Project
 from projects.rest.serializers import ProjectSerializer
 from .utils import custom_sort
 
+class CustomPagination(PageNumberPagination):
+    page_size = 10  # Number of items per page
+    page_size_query_param = 'page_size'  # You can specify the page size in the request query params
+    max_page_size = 100  # Maximum allowed page size
 
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]   
+    pagination_class = CustomPagination  # Include the custom pagination class
+
 
     def get_queryset(self):
         return custom_sort(self.queryset)
