@@ -65,7 +65,7 @@ describe('EditProjectPage', () => {
             JSON.stringify({
                 actual_design: 1.2,
                 actual_development: 0,
-                actual_testing: 0
+                actual_testing: 0,
             }),
         );
 
@@ -93,5 +93,4 @@ describe('EditProjectPage', () => {
         expect(getByText(/it is bad!/i)).toBeInTheDocument();
         // Cleanup after all tests
     });
-
 });

@@ -8,7 +8,7 @@ export const getMockProject = ({ ...overrides } = {}) => ({
     estimated_development: 20,
     actual_development: 2.81,
     estimated_testing: 30,
-    actual_testing: 3.80,
+    actual_testing: 3.8,
     company: {
         id: 1,
         name: 'Test Company',

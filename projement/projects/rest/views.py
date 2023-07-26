@@ -18,33 +18,35 @@ class ProjectViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return custom_sort(self.queryset)
 
-    @action(detail=True, methods=['put'])
+    @action(detail=True, methods=["put"])
     def add_actual(self, request, pk=None):
         # Get the project instance by primary key (pk)
         project = self.get_object()
 
         # Assuming you have 'actual_design', 'actual_development', 'actual_testing' in the request data
-        actual_design = request.data.get('actual_design', None)
-        actual_development = request.data.get('actual_development', None)
-        actual_testing = request.data.get('actual_testing', None)
+        actual_design = request.data.get("actual_design", None)
+        actual_development = request.data.get("actual_development", None)
+        actual_testing = request.data.get("actual_testing", None)
 
         try:
-                # Update the actual hours if the values are provided in the request data
-                if actual_design is not None:
-                    project.actual_design += Decimal(actual_design)
-                if actual_development is not None:
-                    project.actual_development += Decimal(actual_development)
-                if actual_testing is not None:
-                    project.actual_testing += Decimal(actual_testing)
+            # Update the actual hours if the values are provided in the request data
+            if actual_design is not None:
+                project.actual_design += Decimal(actual_design)
+            if actual_development is not None:
+                project.actual_development += Decimal(actual_development)
+            if actual_testing is not None:
+                project.actual_testing += Decimal(actual_testing)
 
-                # Save the changes to the project
-                project.save()
+            # Save the changes to the project
+            project.save()
 
-                # Serialize the updated project and return the response
-                serializer = ProjectSerializer(project)
-                return Response(serializer.data)
+            # Serialize the updated project and return the response
+            serializer = ProjectSerializer(project)
+            return Response(serializer.data)
 
         except (ValueError, TypeError) as e:
             # If there is a ValueError or TypeError (e.g., invalid decimal format), raise an APIException
             # You can customize the error message as needed
-            raise APIException("Invalid actual hours provided.", code=status.HTTP_400_BAD_REQUEST)
+            raise APIException(
+                "Invalid actual hours provided.", code=status.HTTP_400_BAD_REQUEST
+            )
