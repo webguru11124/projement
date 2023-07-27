@@ -45,7 +45,10 @@ const isLoadingReducer = (state = false, action) => {
     }
 };
 
-const pageReducer = (state = { currentPage: 1, pageSize: 11 }, action) => {
+const pageReducer = (
+    state = { currentPage: 1, pageSize: 11, count: 0 },
+    action,
+) => {
     switch (action.type) {
         case SET_PAGE_META_DATA:
             return { ...state, ...action };

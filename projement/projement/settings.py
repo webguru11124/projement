@@ -100,11 +100,11 @@ DATABASES = {
         # "ENGINE": "django.db.backends.sqlite3",
         # "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         "ENGINE": "django.db.backends.postgresql",
-        'NAME': os.getenv('DB_NAME', 'projement'),
-        'USER': os.getenv('DB_USER', 'projement_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD', 'strongpassword'),
-        'HOST': os.getenv('DB_HOST', 'db'),
-        'PORT': os.getenv('DB_PORT', '5432'),
+        "NAME": os.getenv("DB_NAME", "projement"),
+        "USER": os.getenv("DB_USER", "projement_user"),
+        "PASSWORD": os.getenv("DB_PASSWORD", "strongpassword"),
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "5432"),
     }
 }
 # # Use the DATABASE_URL environment variable if available
