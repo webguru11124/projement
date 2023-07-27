@@ -33,7 +33,7 @@ describe('EditProjectPage', () => {
         const NEW_ACTUAL_DESIGN = 1.2;
 
         // Mock the API request to fetch the projects
-        fetchMock.getOnce('/api/projects', [getMockProject()]);
+        fetchMock.getOnce('/api/projects/1', [getMockProject()]);
         // And the API request to update the given project with the new
         // actual_design value
         fetchMock.putOnce(
@@ -75,7 +75,7 @@ describe('EditProjectPage', () => {
     });
 
     it('shows validation errors from the server', async () => {
-        fetchMock.getOnce('/api/projects', [getMockProject()]);
+        fetchMock.getOnce('/api/projects/1', [getMockProject()] );
         // Mock the PUT request to return some validation errors in the DRF
         // format
         fetchMock.putOnce('/api/projects/1/add_actual/', {

@@ -99,12 +99,12 @@ export const fetchProjects = (page, pageSize) => async dispatch => {
 
     let response;
     try {
-        response = await fetch(`/api/projects/?page=${page}&page_size=${pageSize}`).then(res => res.json());
+        response = await fetch(`/api/projects?page=${page}&page_size=${pageSize}`).then(res => res.json());
     } catch (e) {
         return console.error(e);
     };
     dispatch(setPageState({ count: response.count, next: response.next, pageSize: pageSize, previous: response.previous }));
-    dispatch(receiveProjects(response.results));
+    dispatch(receiveProjects(response?.results ?? []));
     return response;
 };
 

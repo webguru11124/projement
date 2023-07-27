@@ -13,12 +13,15 @@ describe('DashboardPage', () => {
 
     it('fetches and renders a list of projects', async () => {
         // Mock the API request to return a specific list of projects
-        fetchMock.getOnce('/api/projects', [
-            getMockProject({
-                total_estimated_hours: 10,
-                total_actual_hours: 5,
-            }),
-        ]);
+        fetchMock.getOnce('/api/projects?page=1&page_size=11', {
+            count: 1,
+            results: [
+                getMockProject({
+                    total_estimated_hours: 11,
+                    total_actual_hours: 5,
+                }),
+            ]
+        });
 
         const { getByText, getByTestId } = renderWithContext(<DashboardPage />);
 
@@ -29,14 +32,17 @@ describe('DashboardPage', () => {
         expect(getByTestId('project-company-name-0').textContent).toBe(
             'Test Company',
         );
-        expect(getByTestId('project-estimated-hours-0').textContent).toBe('10');
+        expect(getByTestId('project-estimated-hours-0').textContent).toBe('11');
         expect(getByTestId('project-actual-hours-0').textContent).toBe('5');
     });
 
     it('strikes through ended projects', async () => {
-        fetchMock.getOnce('/api/projects', [
-            getMockProject({ has_ended: false, end_date: new Date().toString() }),
-        ]);
+        fetchMock.getOnce('/api/projects?page=1&page_size=11', {
+            results: [
+
+                getMockProject({ has_ended: true, end_date: null }),
+            ]
+        });
 
         const { getByText } = renderWithContext(<DashboardPage />);
 
@@ -48,9 +54,11 @@ describe('DashboardPage', () => {
     });
 
     it('shows a warning badge when a project is over budget', async () => {
-        fetchMock.getOnce('/api/projects', [
-            getMockProject({ is_over_budget: true }),
-        ]);
+        fetchMock.getOnce('/api/projects?page=1&page_size=11', {
+            results: [
+                getMockProject({ is_over_budget: true }),
+            ]
+        });
 
         const { getByTestId } = renderWithContext(<DashboardPage />);
 
@@ -62,11 +70,13 @@ describe('DashboardPage', () => {
     });
 
     it('shows a list of tags related to the company', async () => {
-        fetchMock.getOnce('/api/projects', [
-            getMockProject({
-                tags: [{ id: 1, name: 'Test Tag', color: 'primary' }],
-            }),
-        ]);
+        fetchMock.getOnce('/api/projects?page=1&page_size=11', {
+            results: [
+                getMockProject({
+                    tags: [{ id: 1, name: 'Test Tag', color: 'primary' }],
+                }),
+            ]
+        });
 
         const { getByText } = renderWithContext(<DashboardPage />);
 
@@ -76,7 +86,7 @@ describe('DashboardPage', () => {
     });
 
     it('shows a loading spinner while the projects are loading', async () => {
-        fetchMock.getOnce('/api/projects', [getMockProject()]);
+        fetchMock.getOnce('/api/projects?page=1&page_size=11', { results: [getMockProject()] });
 
         const { getByTestId } = renderWithContext(<DashboardPage />);
 

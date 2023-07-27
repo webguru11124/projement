@@ -88,16 +88,17 @@ class ProjectsViewSetTestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         # There are 3 projects in the response (loaded from the fixtures)
-        self.assertEqual(len(response.data), 5)
+        self.assertEqual(len(response.data["results"]), 5)
 
     def test_end_date_sorting(self):
         url = reverse("project-list")
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        data = response.data
+        data = response.data["results"]
 
         expected_order = ["Krah", "Projement", "Vaheladu", "Comics", "GateMe"]
+        print(data)
         actual_order = [project["title"] for project in data]
 
         self.assertEqual(actual_order, expected_order)
