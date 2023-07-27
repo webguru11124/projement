@@ -18,7 +18,7 @@ const EditProjectPage = ({ projects, fetchProject, updateProject }) => {
     const history = useHistory();
     useEffect(() => {
         fetchProject(id);
-    }, [fetchProject]);
+    }, [fetchProject, id]);
 
     if (!projects.length) {
         return <Spinner />;
@@ -66,9 +66,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchProject: (id) => dispatch(fetchProject(id)),
+    fetchProject: id => dispatch(fetchProject(id)),
     updateProject: (id, project) => dispatch(updateProject(id, project)),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProjectPage);

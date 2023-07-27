@@ -982,3 +982,9 @@ ALTER TABLE "new__projects_project" RENAME TO "projects_project"; (params ())
 CREATE INDEX "projects_project_company_id_66b5c58b" ON "projects_project" ("company_id"); (params ())
 CREATE TABLE "django_session" ("session_key" varchar(40) NOT NULL PRIMARY KEY, "session_data" text NOT NULL, "expire_date" datetime NOT NULL); (params None)
 CREATE INDEX "django_session_expire_date_a5c62663" ON "django_session" ("expire_date"); (params ())
+(0.000) SELECT "django_session"."session_key", "django_session"."session_data", "django_session"."expire_date" FROM "django_session" WHERE ("django_session"."expire_date" > '2023-07-27 06:59:58.507088' AND "django_session"."session_key" = 'ly4xqytgtfsqi8k5ylxii9vcqp150glw') LIMIT 21; args=('2023-07-27 06:59:58.507088', 'ly4xqytgtfsqi8k5ylxii9vcqp150glw'); alias=default
+(0.000) 
+            SELECT name, type FROM sqlite_master
+            WHERE type in ('table', 'view') AND NOT name='sqlite_sequence'
+            ORDER BY name; args=None; alias=default
+(0.001) SELECT "django_migrations"."id", "django_migrations"."app", "django_migrations"."name", "django_migrations"."applied" FROM "django_migrations"; args=(); alias=default

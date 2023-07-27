@@ -34,9 +34,9 @@ class Company(models.Model):
 
     def __str__(self):
         return self.name
-    
+
     def get_queryset(cls):
-        return cls.objects.prefetch_related('tags')
+        return cls.objects.prefetch_related("tags")
 
 
 class Project(models.Model):
@@ -47,8 +47,12 @@ class Project(models.Model):
     )
 
     title = models.CharField("Project title", max_length=128)
-    start_date = models.DateField("Project start date", blank=True, null=True, db_index=True)
-    end_date = models.DateField("Project end date", blank=True, null=True, db_index=True)
+    start_date = models.DateField(
+        "Project start date", blank=True, null=True, db_index=True
+    )
+    end_date = models.DateField(
+        "Project end date", blank=True, null=True, db_index=True
+    )
 
     estimated_design = models.PositiveSmallIntegerField("Estimated design hours")
     actual_design = models.DecimalField(
@@ -83,7 +87,7 @@ class Project(models.Model):
         return self.title
 
     def get_queryset(cls):
-        return cls.objects.select_related('company')
+        return cls.objects.select_related("company")
 
     def get_absolute_url(self):
         return reverse(

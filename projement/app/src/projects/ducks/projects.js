@@ -25,7 +25,9 @@ const projectsReducer = (state = [], action) => {
                 project.id === action.project.id ? action.project : project,
             );
         case RECEIVE_PROJECT:
-            return state.filter(project => project.id !== action.project.id).concat(action.project)
+            return state
+                .filter(project => project.id !== action.project.id)
+                .concat(action.project);
         default:
             return state;
     }
@@ -52,12 +54,12 @@ const pageReducer = (state = { currentPage: 1, pageSize: 11 }, action) => {
         default:
             return state;
     }
-}
+};
 
 export default combineReducers({
     projects: projectsReducer,
     isLoading: isLoadingReducer,
-    page: pageReducer
+    page: pageReducer,
 });
 
 // Action creators
@@ -74,12 +76,12 @@ const receiveProject = project => ({
 const setPageState = page => ({
     type: SET_PAGE_META_DATA,
     ...page,
-})
+});
 
 const setCurrentPage = page => ({
     type: SET_PAGE,
-    page
-})
+    page,
+});
 
 const receiveUpdatedProject = project => ({
     type: RECEIVE_UPDATED_PROJECT,
@@ -99,26 +101,35 @@ export const fetchProjects = (page, pageSize) => async dispatch => {
 
     let response;
     try {
-        response = await fetch(`/api/projects?page=${page}&page_size=${pageSize}`).then(res => res.json());
+        response = await fetch(
+            `/api/projects?page=${page}&page_size=${pageSize}`,
+        ).then(res => res.json());
     } catch (e) {
         return console.error(e);
-    };
-    dispatch(setPageState({ count: response.count, next: response.next, pageSize: pageSize, previous: response.previous }));
+    }
+    dispatch(
+        setPageState({
+            count: response.count,
+            next: response.next,
+            pageSize: pageSize,
+            previous: response.previous,
+        }),
+    );
     dispatch(receiveProjects(response?.results ?? []));
     return response;
 };
 
-export const fetchProject = (id) => async dispatch => {
+export const fetchProject = id => async dispatch => {
     dispatch(setIsLoading(true));
     let response;
     try {
         response = await fetch(`/api/projects/${id}`).then(res => res.json());
     } catch (e) {
         return console.error(e);
-    };
+    }
     dispatch(receiveProject(response));
     return response;
-}
+};
 /**
  * Update the project with the given values.
  */

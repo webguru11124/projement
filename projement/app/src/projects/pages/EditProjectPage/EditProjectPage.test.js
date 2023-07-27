@@ -75,7 +75,7 @@ describe('EditProjectPage', () => {
     });
 
     it('shows validation errors from the server', async () => {
-        fetchMock.getOnce('/api/projects/1', [getMockProject()] );
+        fetchMock.getOnce('/api/projects/1', [getMockProject()]);
         // Mock the PUT request to return some validation errors in the DRF
         // format
         fetchMock.putOnce('/api/projects/1/add_actual/', {

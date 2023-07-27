@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Table, Badge, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
+import { Table, Badge } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClock } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -12,14 +12,19 @@ import {
     getProjects,
     getIsLoading,
 } from 'projects/ducks/projects';
-import { projectType } from 'projects/propTypes';
+import { projectType, pageType } from 'projects/propTypes';
 import { getPage } from '../../ducks/projects';
 import PaginationComponent from '../../../core/component/PaginationComponent';
 
-const DashboardPage = ({ fetchProjects, projects, isLoading, page: { currentPage, next, previous, pageSize, count } }) => {
+const DashboardPage = ({
+    fetchProjects,
+    projects,
+    isLoading,
+    page: { currentPage, pageSize, count },
+}) => {
     useEffect(() => {
         fetchProjects(currentPage, pageSize);
-    }, [fetchProjects]);
+    }, [currentPage, fetchProjects, pageSize]);
 
     if (isLoading) {
         return <Spinner />;
@@ -87,8 +92,13 @@ const DashboardPage = ({ fetchProjects, projects, isLoading, page: { currentPage
                     ))}
                 </tbody>
             </Table>
-            <PaginationComponent currentPage={currentPage} totalCounts={count} maxButtons={5} pageSize={pageSize}
-                handlePageChange={(page) => fetchProjects(page, pageSize)} />
+            <PaginationComponent
+                currentPage={currentPage}
+                totalCounts={count}
+                maxButtons={5}
+                pageSize={pageSize}
+                handlePageChange={page => fetchProjects(page, pageSize)}
+            />
         </>
     );
 };
@@ -96,13 +106,14 @@ const DashboardPage = ({ fetchProjects, projects, isLoading, page: { currentPage
 DashboardPage.propTypes = {
     fetchProjects: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
+    page: PropTypes.objectOf(pageType).isRequired,
     projects: PropTypes.arrayOf(projectType).isRequired,
 };
 
 const mapStateToProps = state => ({
     projects: getProjects(state),
     isLoading: getIsLoading(state),
-    page: getPage(state)
+    page: getPage(state),
 });
 
 const mapDispatchToProps = dispatch => ({
