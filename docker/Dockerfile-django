@@ -8,6 +8,14 @@ WORKDIR /app
 # Run Django's runserver by default
 CMD ["python", "manage.py", "runserver", "0.0.0.0:80"]
 
+# Define the build argument LIBPQ_DEV with a default value (you can change the default value as needed)
+ARG LIBPQ_DEV=0
+
+# Install psycopg2 dependencies based on the value of LIBPQ_DEV
+RUN if [ "$LIBPQ_DEV" = "1" ] ; then \
+    apt-get update && apt-get install -y libpq-dev \
+    ; fi
+
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     gcc \

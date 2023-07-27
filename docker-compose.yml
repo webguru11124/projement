@@ -1,18 +1,39 @@
 version: '2'
 
 services:
+    db:
+        image: postgres:13.4
+        environment:
+            POSTGRES_DB: projement
+            POSTGRES_USER: jack
+            POSTGRES_PASSWORD: strongpassword
+        ports:
+            - "5432:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data # Use the named volume 'pgdata' to store the PostgreSQL data
     django:
         build:
             context: .
             dockerfile: docker/Dockerfile-django
+            args:
+                - LIBPQ_DEV=1 # Set the value of LIBPQ_DEV to 1 to include libpq-dev
+
         volumes:
             - "./projement:/app"
         environment:
             - PYTHONUNBUFFERED=0
             - PYTHONPYCACHEPREFIX=../__pycache__
+            - DATABASE_URL=postgres://jack:strongpassword@db/projement
+            - DB_NAME=projement
+            - DB_USER=jack
+            - DB_PASSWORD=strongpassword
+            - DB_HOST=db
+            - DB_PORT=5432
         ports:
             - "8000:8000"
         command: python manage.py runserver 0.0.0.0:8000
+        depends_on:
+            - db
 
     node:
         build:
@@ -21,3 +42,6 @@ services:
         volumes:
             - ".data/node_modules:/app/node_modules"
             - "./projement:/app"
+
+volumes:
+    pgdata: # Define the pgdata volume here
